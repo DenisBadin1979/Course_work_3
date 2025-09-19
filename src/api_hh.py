@@ -4,17 +4,6 @@ import requests
 from mypy.dmypy.client import request
 
 
-
-
-# params = {'employer_id' :'2523'}
-#
-# sss = requests.get ('https://api.hh.ru/employers', params=params)
-# data = sss.json()
-# tttt = data.get('items')
-# # for i in tttt:
-# #     print(i)
-# print(tttt)
-
 def vacansies_work (list_companies: list[dict[str, str]]) ->  list[dict]:
     """Функция получает список словарей и выводит по id вакансии с сайта hh.ru
     и далее формирует список словарей"""
