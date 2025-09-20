@@ -1,8 +1,9 @@
 from src.api_hh import vacansies_work
+from src.dbmanager import DBManager
 from src.utils_database import create_database, create_tables, employees_insert, vacancies_insert
 
 
-def dict_companies () -> list[dict]:
+def dict_companies () -> None:
     """Функция взаимодействия с пользователем"""
     numbers_companies = int(input('Введите количество компаний:_'))
     list_companies = []
@@ -25,7 +26,13 @@ def dict_companies () -> list[dict]:
     print('#Заполняем таблицу с вакансиями')
     vacancies_insert(fun)
 
-    return list_companies
+    conr = DBManager()
+    print("Список всех компаний и количество вакансий у каждой компании")
+    conr.get_companies_and_vacancies_count()
+    print("Список всех вакансий с указанием названия компании, названия вакансии и зарплаты и ссылки на вакансию")
+    conr.get_all_vacancies()
+
+
 
 if __name__ == '__main__':
     #Создаем список словарей для проверки, что бы не вызывать функцию взаимодействия с пользователем
@@ -41,13 +48,19 @@ if __name__ == '__main__':
          {'employer_id': '78638', 'employer_name': 'Т-Банк'}]
 
 
-    print ('# Получаем список вакансий')
-    fun  = vacansies_work (l)
-    print ('#Создаем базу данных')
-    create_database()
-    print ('#Создаем таблицы')
-    create_tables()
-    print ('#Заполняем таблицу компаний')
-    employees_insert(l)
-    print ('#Заполняем таблицу с вакансиями')
-    vacancies_insert(fun)
+    # print ('# Получаем список вакансий')
+    # fun  = vacansies_work (l)
+    # print ('#Создаем базу данных')
+    # create_database()
+    # print ('#Создаем таблицы')
+    # create_tables()
+    # print ('#Заполняем таблицу компаний')
+    # employees_insert(l)
+    # print ('#Заполняем таблицу с вакансиями')
+    # vacancies_insert(fun)
+
+    conr = DBManager()
+    print("Список всех компаний и количество вакансий у каждой компании")
+    conr.get_companies_and_vacancies_count()
+    print("Список всех вакансий с указанием названия компании, названия вакансии и зарплаты и ссылки на вакансию")
+    conr.get_all_vacancies()
