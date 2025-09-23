@@ -1,6 +1,6 @@
 import unittest
-from unittest.mock import patch, MagicMock
-import psycopg2
+from unittest.mock import MagicMock
+
 from src.dbmanager import DBManager  # замени your_module на имя твоего файла
 
 
@@ -15,7 +15,9 @@ class TestDBManager(unittest.TestCase):
         self.mock_cursor = MagicMock()
 
         self.db_manager.dict_connect = self.mock_conn
-        self.mock_conn.cursor.return_value.__enter__ = MagicMock(return_value=self.mock_cursor)
+        self.mock_conn.cursor.return_value.__enter__ = MagicMock(
+            return_value=self.mock_cursor
+        )
         self.mock_conn.cursor.return_value.__exit__ = MagicMock(return_value=None)
 
     def test_init(self):
@@ -45,7 +47,7 @@ class TestDBManager(unittest.TestCase):
         # Arrange
         mock_data = [
             ("Company A", "Python Developer", 100000, "http://example.com"),
-            ("Company B", "Data Scientist", 120000, "http://example.com")
+            ("Company B", "Data Scientist", 120000, "http://example.com"),
         ]
         self.mock_cursor.fetchall.return_value = mock_data
 
@@ -77,7 +79,7 @@ FROM vacancies INNER JOIN employees USING (employer_id)"""
         # Arrange
         mock_data = [
             ("Senior Python Developer", 150000),
-            ("Lead Data Scientist", 180000)
+            ("Lead Data Scientist", 180000),
         ]
         self.mock_cursor.fetchall.return_value = mock_data
 
@@ -95,7 +97,14 @@ FROM vacancies INNER JOIN employees USING (employer_id)"""
         # Arrange
         keyword = "python"
         mock_data = [
-            (1, "Python Developer", 100000, "Description with python", "http://example.com", "123")
+            (
+                1,
+                "Python Developer",
+                100000,
+                "Description with python",
+                "http://example.com",
+                "123",
+            )
         ]
         self.mock_cursor.fetchall.return_value = mock_data
 
@@ -117,4 +126,3 @@ FROM vacancies INNER JOIN employees USING (employer_id)"""
         # Assert - проверяем, что запрос выполняется как есть (это показывает уязвимость!)
         expected_query = f"SELECT * FROM vacancies WHERE LOWER (description) LIKE LOWER ('%{malicious_keyword}%')"
         self.mock_cursor.execute.assert_called_once_with(expected_query)
-

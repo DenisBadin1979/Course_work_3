@@ -1,12 +1,18 @@
 import unittest
-from unittest.mock import patch, MagicMock
-from src.utils_database import create_database, create_tables, employees_insert, vacancies_insert
+from unittest.mock import MagicMock, patch
+
+from src.utils_database import (
+    create_database,
+    create_tables,
+    employees_insert,
+    vacancies_insert,
+)
 
 
 class TestDatabaseFunctionsWithMocks(unittest.TestCase):
     """Тесты с мокингом для изоляции от реальной БД"""
 
-    @patch('src.utils_database.psycopg2.connect')
+    @patch("src.utils_database.psycopg2.connect")
     def test_create_database(self, mock_connect):
         """Тест создания БД с мокингом"""
         # Arrange
@@ -26,7 +32,7 @@ class TestDatabaseFunctionsWithMocks(unittest.TestCase):
         mock_conn.commit.assert_called_once()
         mock_cursor.close.assert_called_once()
 
-    @patch('src.utils_database.psycopg2.connect')
+    @patch("src.utils_database.psycopg2.connect")
     def test_create_tables(self, mock_connect):
         """Тест создания таблиц с мокингом"""
         # Arrange
@@ -47,7 +53,7 @@ class TestDatabaseFunctionsWithMocks(unittest.TestCase):
         mock_conn.commit.assert_called()
         mock_cursor.close.assert_called_once()
 
-    @patch('src.utils_database.psycopg2.connect')
+    @patch("src.utils_database.psycopg2.connect")
     def test_employees_insert(self, mock_connect):
         """Тест вставки компаний с мокингом"""
         # Arrange
@@ -58,7 +64,7 @@ class TestDatabaseFunctionsWithMocks(unittest.TestCase):
 
         test_companies = [
             {"employer_id": "1", "employer_name": "Company A"},
-            {"employer_id": "2", "employer_name": "Company B"}
+            {"employer_id": "2", "employer_name": "Company B"},
         ]
 
         # Act
@@ -70,11 +76,13 @@ class TestDatabaseFunctionsWithMocks(unittest.TestCase):
 
         # Проверяем параметры первого вызова
         first_call_args = mock_cursor.execute.call_args_list[0]
-        self.assertEqual(first_call_args[0][0],
-                         "INSERT INTO employees (employer_id, employer_name) VALUES (%s, %s)")
+        self.assertEqual(
+            first_call_args[0][0],
+            "INSERT INTO employees (employer_id, employer_name) VALUES (%s, %s)",
+        )
         self.assertEqual(first_call_args[0][1], ("1", "Company A"))
 
-    @patch('src.utils_database.psycopg2.connect')
+    @patch("src.utils_database.psycopg2.connect")
     def test_vacancies_insert(self, mock_connect):
         """Тест вставки вакансий с мокингом"""
         # Arrange
@@ -92,9 +100,9 @@ class TestDatabaseFunctionsWithMocks(unittest.TestCase):
                         "name_vacancy": "Python Developer",
                         "salary": 100000,
                         "description": "Python development",
-                        "url": "http://example.com"
+                        "url": "http://example.com",
                     }
-                ]
+                ],
             }
         ]
 
@@ -110,6 +118,12 @@ class TestDatabaseFunctionsWithMocks(unittest.TestCase):
 VALUES (%s, %s, %s, %s, %s, %s)"""
         self.assertEqual(call_args[0][0], expected_sql)
 
-        expected_params = ("1001", "1", "Python Developer", 100000, "Python development", "http://example.com")
+        expected_params = (
+            "1001",
+            "1",
+            "Python Developer",
+            100000,
+            "Python development",
+            "http://example.com",
+        )
         self.assertEqual(call_args[0][1], expected_params)
-

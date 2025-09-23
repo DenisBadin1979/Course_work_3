@@ -2,7 +2,8 @@ import psycopg2
 
 
 class DBManager:
-    """"Класс DBManager подключатеся к БД PostgreSQL """
+    """ "Класс DBManager подключатеся к БД PostgreSQL"""
+
     def __init__(self) -> None:
         self.dict_connect = psycopg2.connect(
             host="localhost", database="job_openings", user="postgres", password="12345"

@@ -11,7 +11,7 @@ from src.utils_database import (
 def dict_companies() -> None:
     """Функция взаимодействия с пользователем"""
     numbers_companies = int(input("Введите количество компаний:_"))
-    list_companies : list[dict] = []
+    list_companies: list[dict] = []
     while len(list_companies) < numbers_companies:
         employer_id = str(input("Введите номер id  работодателя:_ "))
         employer_name = str(input("Введите имя работодателя работодателя:_ "))
