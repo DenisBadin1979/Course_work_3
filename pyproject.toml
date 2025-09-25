@@ -8,6 +8,8 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "requests (>=2.32.5,<3.0.0)",
+    "psycopg2-binary (>=2.9.10,<3.0.0)"
 ]
 
 
@@ -24,4 +26,9 @@ flake8 = "^7.3.0"
 mypy = "^1.18.1"
 isort = "^6.0.1"
 black = "^25.1.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.2"
+pytest-cov = "^7.0.0"
 
